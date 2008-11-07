@@ -20,8 +20,8 @@ extern volatile EXCEPTION_FRAME_T ExceptionFrames[];
 #define Try                                                         \
     {                                                               \
         jmp_buf *PrevFrame, NewFrame;                               \
-        PrevFrame = MY_FRAME.pFrame;                                \
         unsigned int MY_ID = EXCEPTION_GET_ID();                    \
+        PrevFrame = MY_FRAME.pFrame;                                \
         MY_FRAME_FAST.pFrame = &NewFrame;                           \
         MY_FRAME_FAST.Details = 0;                                  \
         MY_FRAME_FAST.Exception = EXCEPTION_NONE;                   \

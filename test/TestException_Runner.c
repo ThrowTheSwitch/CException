@@ -21,40 +21,40 @@ extern void test_CanThrowADetailedExceptionAndCheckOutTheResults(void);
 
 static void runTest(UnityTestFunction test)
 {
-    if (setjmp(AbortFrame) == 0)
+  if (setjmp(AbortFrame) == 0)
+  {
+    setUp();
+    Try
     {
-        setUp();
-        Try
-        {
-            test();
-        }
-        Catch
-        {
-            TEST_FAIL("Unexpected exception!")
-        }
+      test();
     }
-    tearDown();
+    Catch
+    {
+      TEST_FAIL("Unexpected exception!")
+    }
+  }
+  tearDown();
 }
-    
-    
+
+
 int main(void)
 {
-    Unity.TestFile = __FILE__;
-    UnityBegin();
+  Unity.TestFile = __FILE__;
+  UnityBegin();
 
-    // RUN_TEST calls runTest
-		RUN_TEST(test_BasicTryDoesNothingIfNoThrow);
-    RUN_TEST(test_BasicThrowAndCatch);
-		RUN_TEST(test_VerifyVolatilesSurviveThrowAndCatch);
-    RUN_TEST(test_ThrowFromASubFunctionAndCatchInRootFunc);
-    RUN_TEST(test_ThrowAndCatchFromASubFunctionAndRethrowToCatchInRootFunc);
-    RUN_TEST(test_ThrowAndCatchFromASubFunctionAndNoRethrowToCatchInRootFunc);
-    RUN_TEST(test_CanHaveMultipleTryBlocksInASingleFunction);
-    RUN_TEST(test_CanHaveNestedTryBlocksInASingleFunction_ThrowInside);
-    RUN_TEST(test_CanHaveNestedTryBlocksInASingleFunction_ThrowOutside);
-    RUN_TEST(test_CanThrowADetailedExceptionAndCheckOutTheResults);
+  // RUN_TEST calls runTest
+  RUN_TEST(test_BasicTryDoesNothingIfNoThrow);
+  RUN_TEST(test_BasicThrowAndCatch);
+  RUN_TEST(test_VerifyVolatilesSurviveThrowAndCatch);
+  RUN_TEST(test_ThrowFromASubFunctionAndCatchInRootFunc);
+  RUN_TEST(test_ThrowAndCatchFromASubFunctionAndRethrowToCatchInRootFunc);
+  RUN_TEST(test_ThrowAndCatchFromASubFunctionAndNoRethrowToCatchInRootFunc);
+  RUN_TEST(test_CanHaveMultipleTryBlocksInASingleFunction);
+  RUN_TEST(test_CanHaveNestedTryBlocksInASingleFunction_ThrowInside);
+  RUN_TEST(test_CanHaveNestedTryBlocksInASingleFunction_ThrowOutside);
+  RUN_TEST(test_CanThrowADetailedExceptionAndCheckOutTheResults);
 
-    UnityEnd();
-    
-    return 0;
+  UnityEnd();
+  
+  return 0;
 }
