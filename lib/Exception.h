@@ -1,43 +1,23 @@
 #ifndef _EXCEPTION_H
 #define _EXCEPTION_H
 
-#include <setjmp.h>
-#include "ExceptionConfig.h"
+// Define the reserved value representing NO EXCEPTION
+#define EXCEPTION_NONE (0x5A5A5A5A)
 
-//exception frame structures
-typedef struct {
-  jmp_buf* pFrame;
-  volatile unsigned int Exception;
-  volatile unsigned int Details;
-} EXCEPTION_FRAME_T;
-extern volatile EXCEPTION_FRAME_T ExceptionFrames[];
+// Multi-Tasking environments will need a couple of macros defined to make this library 
+// properly handle  multiple exception stacks.  You will need to include and required
+// definitions, then define the following macros:
+//    EXCEPTION_GET_ID - returns the id of the current task indexed 0 to (numtasks - 1)
+//    EXCEPTION_NUM_ID - returns the number of tasks that might be returned
+//
+// For example, Quadros might include the following implementation:
+#ifndef TEST
+#include "OSAPI.h"
+#define EXCEPTION_GET_ID()  (KS_GetTaskID())
+#define EXCEPTION_NUM_ID    (NTASKS + 1)
+#endif
 
-#define MY_FRAME            (ExceptionFrames[EXCEPTION_GET_ID()])
-#define MY_FRAME_FAST       (ExceptionFrames[MY_ID])
-#define EXCEPTION_ID        (MY_FRAME.Exception)
-#define EXCEPTION_DETAILS   (MY_FRAME.Details)
-
-#define Try                                                         \
-    {                                                               \
-        jmp_buf *PrevFrame, NewFrame;                               \
-        unsigned int MY_ID = EXCEPTION_GET_ID();                    \
-        PrevFrame = MY_FRAME.pFrame;                                \
-        MY_FRAME_FAST.pFrame = &NewFrame;                           \
-        MY_FRAME_FAST.Details = 0;                                  \
-        MY_FRAME_FAST.Exception = EXCEPTION_NONE;                   \
-        if (setjmp(NewFrame) == 0) {                                \
-            if (&PrevFrame)
-
-#define Catch                                                       \
-            else { }                                                \
-            MY_FRAME_FAST.Exception = EXCEPTION_NONE;               \
-        }                                                           \
-        MY_FRAME_FAST.pFrame = PrevFrame;                           \
-    }                                                               \
-    if (MY_FRAME.Exception != EXCEPTION_NONE)
-
-#define Throw(id)       ThrowDetailed(id, __LINE__)
-void ThrowDetailed(unsigned int ExceptionID, unsigned int Details);
-void Rethrow(void);
+// INCLUDE THE ACTUAL CEXCEPTION LIBRARY
+#include "CException.h"
 
 #endif // _EXCEPTION_H
