@@ -169,29 +169,29 @@ CONFIGURATION
 --------------------------------------------------------------------
 
 CException is a mostly portable library.  It has one universal 
-dependency, and another which is required if working in a multi-tasking
-environment.
+dependency, and some macros which are required if working in a 
+multi-tasking environment.
 
 1. The standard C library setjmp must be available
 
-2. If working in a multitasking environment, a method of obtaining an 
-   index into an array of frames is required.  If the OS supports a
-   method to retrieve Task ID's, and those Tasks are number 0, 1, 2..
-   you are in an ideal situation.  Otherwise, a more creative mapping
-   function may be required.  Note that this function is likely to be
-   called twice for each protected block.  This is the greatest
-   overhead in the system.
+2. If working in a multitasking environment, methods for obtaining an 
+   index into an array of frames and to get the overall number of 
+   id's are required.  If the OS supports a method to retrieve Task 
+   ID's, and those Tasks are number 0, 1, 2... you are in an ideal 
+   situation.  Otherwise, a more creative mapping function may be 
+   required.  Note that this function is likely to be called twice 
+   for each protected block.  This is the only overhead in the system.
    
-ExceptionConfig.h
+Exception.h
 -----------------
+By convention, most projects include Exception.h which defines any 
+further requirements, then calls CException.h to do the gruntwork.
 
-EXCEPTION_MULTI_STACK - define if you are in a multi-tasking environment
+EXCEPTION_NONE   - set to a number which will never be an exception id in
+                   your system.
 
-EXCEPTION_NONE - set to a number which will never be an exception id in
-                 your system.
-
-EXCEPTION_GET_ID() - If in a multi-tasking environment, this should be 
-                     set to be a call to the function described in #2 above.
+EXCEPTION_GET_ID - If in a multi-tasking environment, this should be 
+                   set to be a call to the function described in #2 above.
                      
 EXCEPTION_NUM_ID - If in a multi-tasking environment, this should be set
                    to the number of ID's required (usually the number of
