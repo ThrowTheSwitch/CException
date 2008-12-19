@@ -7,6 +7,7 @@ extern void tearDown(void);
 
 extern void test_BasicTryDoesNothingIfNoThrow(void);
 extern void test_BasicThrowAndCatch(void);
+extern void test_BasicThrowAndCatch_WithMiniSyntax(void);
 extern void test_VerifyVolatilesSurviveThrowAndCatch(void);
 extern void test_ThrowFromASubFunctionAndCatchInRootFunc(void);
 extern void test_ThrowAndCatchFromASubFunctionAndRethrowToCatchInRootFunc(void);
@@ -14,10 +15,12 @@ extern void test_ThrowAndCatchFromASubFunctionAndNoRethrowToCatchInRootFunc(void
 extern void test_CanHaveMultipleTryBlocksInASingleFunction(void);
 extern void test_CanHaveNestedTryBlocksInASingleFunction_ThrowInside(void);
 extern void test_CanHaveNestedTryBlocksInASingleFunction_ThrowOutside(void);
-extern void test_CanThrowADetailedExceptionAndCheckOutTheResults(void);
+extern void test_ThrowAnErrorThenEnterATryBlockFromWithinCatch_VerifyThisDoesntCorruptExceptionId(void);
+extern void test_ThrowAnErrorThenEnterATryBlockFromWithinCatch_VerifyThatEachExceptionIdIndependent(void);
 
 static void runTest(UnityTestFunction test)
 {
+  EXCEPTION_T e;
   if (TEST_PROTECT())
   {
     setUp();
@@ -25,7 +28,7 @@ static void runTest(UnityTestFunction test)
     {
       test();
     }
-    Catch
+    Catch(e)
     {
       TEST_FAIL("Unexpected exception!")
     }
@@ -42,6 +45,7 @@ int main(void)
   // RUN_TEST calls runTest
   RUN_TEST(test_BasicTryDoesNothingIfNoThrow);
   RUN_TEST(test_BasicThrowAndCatch);
+  RUN_TEST(test_BasicThrowAndCatch_WithMiniSyntax);
   RUN_TEST(test_VerifyVolatilesSurviveThrowAndCatch);
   RUN_TEST(test_ThrowFromASubFunctionAndCatchInRootFunc);
   RUN_TEST(test_ThrowAndCatchFromASubFunctionAndRethrowToCatchInRootFunc);
@@ -49,7 +53,8 @@ int main(void)
   RUN_TEST(test_CanHaveMultipleTryBlocksInASingleFunction);
   RUN_TEST(test_CanHaveNestedTryBlocksInASingleFunction_ThrowInside);
   RUN_TEST(test_CanHaveNestedTryBlocksInASingleFunction_ThrowOutside);
-  RUN_TEST(test_CanThrowADetailedExceptionAndCheckOutTheResults);
+  RUN_TEST(test_ThrowAnErrorThenEnterATryBlockFromWithinCatch_VerifyThisDoesntCorruptExceptionId);
+  RUN_TEST(test_ThrowAnErrorThenEnterATryBlockFromWithinCatch_VerifyThatEachExceptionIdIndependent);
 
   UnityEnd();
   

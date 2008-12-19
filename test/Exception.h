@@ -1,8 +1,11 @@
 #ifndef _EXCEPTION_H
 #define _EXCEPTION_H
 
-// Define the reserved value representing NO EXCEPTION
-#define EXCEPTION_NONE (0x5A5A5A5A)
+//Optionally define the exception type (something like an int which can be directly assigned)
+#define EXCEPTION_T    int
+
+// Optionally define the reserved value representing NO EXCEPTION
+#define EXCEPTION_NONE (1234)
 
 // Multi-Tasking environments will need a couple of macros defined to make this library 
 // properly handle  multiple exception stacks.  You will need to include and required
@@ -13,11 +16,15 @@
 // For example, Quadros might include the following implementation:
 #ifndef TEST
 #include "OSAPI.h"
-#define EXCEPTION_GET_ID()  (KS_GetTaskID())
+#define EXCEPTION_GET_ID    (KS_GetTaskID())
 #define EXCEPTION_NUM_ID    (NTASKS + 1)
 #endif
 
 // INCLUDE THE ACTUAL CEXCEPTION LIBRARY
 #include "CException.h"
+
+//This could be a good place to define/include some error ID's:
+#define ERROR_ID_EVERYTHING_IS_BROKEN  (0x88)
+#define ERROR_ID_ONLY_THIS_IS_BROKEN   (0x77)
 
 #endif // _EXCEPTION_H

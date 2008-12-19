@@ -15,40 +15,42 @@
 #define EXCEPTION_GET_ID    (0) //use the first index always because there is only one anyway
 #endif
 
+#ifndef EXCEPTION_T
+#define EXCEPTION_T         unsigned int
+#endif
+
 //exception frame structures
 typedef struct {
   jmp_buf* pFrame;
-  volatile unsigned int Exception;
-  volatile unsigned int Details;
+  volatile EXCEPTION_T Exception;
 } EXCEPTION_FRAME_T;
+
+//actual root frame storage (only one if single-tasking)
 extern volatile EXCEPTION_FRAME_T ExceptionFrames[];
 
-#define MY_FRAME            (ExceptionFrames[EXCEPTION_GET_ID])
-#define MY_FRAME_FAST       (ExceptionFrames[MY_ID])
-#define EXCEPTION_ID        (MY_FRAME.Exception)
-#define EXCEPTION_DETAILS   (MY_FRAME.Details)
-
+//Try (see C file for explanation)
 #define Try                                                         \
     {                                                               \
         jmp_buf *PrevFrame, NewFrame;                               \
         unsigned int MY_ID = EXCEPTION_GET_ID;                      \
-        PrevFrame = MY_FRAME.pFrame;                                \
-        MY_FRAME_FAST.pFrame = &NewFrame;                           \
-        MY_FRAME_FAST.Details = 0;                                  \
-        MY_FRAME_FAST.Exception = EXCEPTION_NONE;                   \
+        PrevFrame = ExceptionFrames[EXCEPTION_GET_ID].pFrame;       \
+        ExceptionFrames[MY_ID].pFrame = &NewFrame;                  \
+        ExceptionFrames[MY_ID].Exception = EXCEPTION_NONE;          \
         if (setjmp(NewFrame) == 0) {                                \
-            if (&PrevFrame)
+            if (&PrevFrame) 
 
-#define Catch                                                       \
+//Catch (see C file for explanation)
+#define Catch(e)                                                    \
             else { }                                                \
-            MY_FRAME_FAST.Exception = EXCEPTION_NONE;               \
+            ExceptionFrames[MY_ID].Exception = EXCEPTION_NONE;      \
         }                                                           \
-        MY_FRAME_FAST.pFrame = PrevFrame;                           \
+        else                                                        \
+        { e = ExceptionFrames[MY_ID].Exception; e=e; }              \
+        ExceptionFrames[MY_ID].pFrame = PrevFrame;                  \
     }                                                               \
-    if (MY_FRAME.Exception != EXCEPTION_NONE)
+    if (ExceptionFrames[EXCEPTION_GET_ID].Exception != EXCEPTION_NONE)
 
-#define Throw(id)       ThrowDetailed(id, __LINE__)
-void ThrowDetailed(unsigned int ExceptionID, unsigned int Details);
-void Rethrow(void);
+//Throw an Error
+void Throw(EXCEPTION_T ExceptionID);
 
 #endif // _CEXCEPTION_H
