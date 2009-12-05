@@ -15,7 +15,7 @@ endif
 SRC_FILES=lib/CException.c test/TestException.c test/TestException_Runner.c $(UNITY_DIR)/unity.c
 INC_DIRS=-Ilib -Itest -I$(UNITY_DIR)
 LIB_DIRS=-L$(C_LIBS) 
-SYMBOLS=-DTEST
+SYMBOLS=-DTEST -DEXCEPTION_USE_CONFIG_FILE
 
 #Default Task: Compile And Run Tests
 default:

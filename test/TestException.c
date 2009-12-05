@@ -1,5 +1,5 @@
 #include "unity.h"
-#include "Exception.h"
+#include "CException.h"
 
 void setUp(void)
 {
@@ -12,7 +12,7 @@ void tearDown(void)
 void test_BasicTryDoesNothingIfNoThrow(void)
 {
   int i;
-  EXCEPTION_T e = 0x5a5a;
+  CEXCEPTION_T e = 0x5a5a;
   
   Try
   {
@@ -29,7 +29,7 @@ void test_BasicTryDoesNothingIfNoThrow(void)
 
 void test_BasicThrowAndCatch(void)
 {
-  EXCEPTION_T e;
+  CEXCEPTION_T e;
 
   Try
   {
@@ -48,7 +48,7 @@ void test_BasicThrowAndCatch(void)
 
 void test_BasicThrowAndCatch_WithMiniSyntax(void)
 {
-  EXCEPTION_T e;
+  CEXCEPTION_T e;
 
   //Mini Throw and Catch
   Try
@@ -69,7 +69,7 @@ void test_BasicThrowAndCatch_WithMiniSyntax(void)
 void test_VerifyVolatilesSurviveThrowAndCatch(void)
 {
   volatile unsigned int VolVal = 0;
-  EXCEPTION_T e;
+  CEXCEPTION_T e;
 
   Try
   {
@@ -98,7 +98,7 @@ void HappyExceptionThrower(unsigned int ID)
 void test_ThrowFromASubFunctionAndCatchInRootFunc(void)
 {
   volatile  unsigned int ID = 0;
-  EXCEPTION_T e;
+  CEXCEPTION_T e;
 
   Try
   {
@@ -117,7 +117,7 @@ void test_ThrowFromASubFunctionAndCatchInRootFunc(void)
 
 void HappyExceptionRethrower(unsigned int ID)
 {
-  EXCEPTION_T e;
+  CEXCEPTION_T e;
   
   Try
   {
@@ -139,7 +139,7 @@ void HappyExceptionRethrower(unsigned int ID)
 void test_ThrowAndCatchFromASubFunctionAndRethrowToCatchInRootFunc(void)
 {
   volatile  unsigned int ID = 0;
-  EXCEPTION_T e;
+  CEXCEPTION_T e;
   
   Try
   {
@@ -157,7 +157,7 @@ void test_ThrowAndCatchFromASubFunctionAndRethrowToCatchInRootFunc(void)
 
 void test_ThrowAndCatchFromASubFunctionAndNoRethrowToCatchInRootFunc(void)
 {
-  EXCEPTION_T e = 3;
+  CEXCEPTION_T e = 3;
   
   Try
   {
@@ -174,7 +174,7 @@ void test_ThrowAndCatchFromASubFunctionAndNoRethrowToCatchInRootFunc(void)
 
 void test_ThrowAnErrorThenEnterATryBlockFromWithinCatch_VerifyThisDoesntCorruptExceptionId(void)
 {
-  EXCEPTION_T e;
+  CEXCEPTION_T e;
   
   Try
   {
@@ -192,7 +192,7 @@ void test_ThrowAnErrorThenEnterATryBlockFromWithinCatch_VerifyThisDoesntCorruptE
 
 void test_ThrowAnErrorThenEnterATryBlockFromWithinCatch_VerifyThatEachExceptionIdIndependent(void)
 {
-  EXCEPTION_T e1, e2;
+  CEXCEPTION_T e1, e2;
   
   Try
   {
@@ -219,7 +219,7 @@ void test_ThrowAnErrorThenEnterATryBlockFromWithinCatch_VerifyThatEachExceptionI
 
 void test_CanHaveMultipleTryBlocksInASingleFunction(void)
 {
-  EXCEPTION_T e;
+  CEXCEPTION_T e;
   
   Try
   {
@@ -245,7 +245,7 @@ void test_CanHaveMultipleTryBlocksInASingleFunction(void)
 void test_CanHaveNestedTryBlocksInASingleFunction_ThrowInside(void)
 {
   int i = 0;
-  EXCEPTION_T e;
+  CEXCEPTION_T e;
   
   Try
   {
@@ -269,7 +269,7 @@ void test_CanHaveNestedTryBlocksInASingleFunction_ThrowInside(void)
 void test_CanHaveNestedTryBlocksInASingleFunction_ThrowOutside(void)
 {
   int i = 0;
-  EXCEPTION_T e;
+  CEXCEPTION_T e;
   
   Try
   {
