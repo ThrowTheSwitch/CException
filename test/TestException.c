@@ -39,7 +39,7 @@ void test_BasicThrowAndCatch(void)
   Catch(e)
   {
     //verify that e has the right data
-    TEST_ASSERT_EQUAL(0xBEEFBEEF, e)
+    TEST_ASSERT_EQUAL(0xBEEFBEEF, e);
   }
 
   //verify that e STILL has the right data

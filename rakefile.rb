@@ -3,6 +3,7 @@ HERE = File.expand_path(File.dirname(__FILE__)) + '/'
 require 'rake'
 require 'rake/clean'
 require 'rake/testtask'
+require 'vendor/unity/auto/colour_reporter.rb'
 
 #Tool and Lib Locations
 C_COMPILER = 'gcc'
@@ -22,14 +23,19 @@ SYMBOLS = '-DTEST -DEXCEPTION_USE_CONFIG_FILE'
 CLEAN.include("#{HERE}*.out")
 
 task :default => [:clobber, :test]
+task :cruise => [:no_color, :default]
 
 desc "performs a quick set of unit tests to confirm you're ready to go"
 task :test do
-  puts "#{C_COMPILER} #{INC_DIRS} #{LIB_DIRS} #{SYMBOLS} #{SRC_FILES} -o #{OUT_FILE}#{OUT_EXTENSION}"
+  report "#{C_COMPILER} #{INC_DIRS} #{LIB_DIRS} #{SYMBOLS} #{SRC_FILES} -o #{OUT_FILE}#{OUT_EXTENSION}"
   output = `#{C_COMPILER} #{INC_DIRS} #{LIB_DIRS} #{SYMBOLS} #{SRC_FILES} -o #{OUT_FILE}#{OUT_EXTENSION}`
-  puts output
+  report output
 
-  puts "#{HERE}#{OUT_FILE}#{OUT_EXTENSION}"
+  report "#{HERE}#{OUT_FILE}#{OUT_EXTENSION}"
   output = `#{HERE}#{OUT_FILE}#{OUT_EXTENSION}`
-  puts output
+  report output
+end
+
+task :no_color do
+  $colour_output = false
 end

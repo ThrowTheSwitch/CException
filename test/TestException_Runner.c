@@ -43,18 +43,18 @@ int main(void)
   UnityBegin();
 
   // RUN_TEST calls runTest
-  RUN_TEST(test_BasicTryDoesNothingIfNoThrow);
-  RUN_TEST(test_BasicThrowAndCatch);
-  RUN_TEST(test_BasicThrowAndCatch_WithMiniSyntax);
-  RUN_TEST(test_VerifyVolatilesSurviveThrowAndCatch);
-  RUN_TEST(test_ThrowFromASubFunctionAndCatchInRootFunc);
-  RUN_TEST(test_ThrowAndCatchFromASubFunctionAndRethrowToCatchInRootFunc);
-  RUN_TEST(test_ThrowAndCatchFromASubFunctionAndNoRethrowToCatchInRootFunc);
-  RUN_TEST(test_CanHaveMultipleTryBlocksInASingleFunction);
-  RUN_TEST(test_CanHaveNestedTryBlocksInASingleFunction_ThrowInside);
-  RUN_TEST(test_CanHaveNestedTryBlocksInASingleFunction_ThrowOutside);
-  RUN_TEST(test_ThrowAnErrorThenEnterATryBlockFromWithinCatch_VerifyThisDoesntCorruptExceptionId);
-  RUN_TEST(test_ThrowAnErrorThenEnterATryBlockFromWithinCatch_VerifyThatEachExceptionIdIndependent);
+  RUN_TEST(test_BasicTryDoesNothingIfNoThrow, 12);
+  RUN_TEST(test_BasicThrowAndCatch, 30);
+  RUN_TEST(test_BasicThrowAndCatch_WithMiniSyntax, 49);
+  RUN_TEST(test_VerifyVolatilesSurviveThrowAndCatch, 69);
+  RUN_TEST(test_ThrowFromASubFunctionAndCatchInRootFunc, 98);
+  RUN_TEST(test_ThrowAndCatchFromASubFunctionAndRethrowToCatchInRootFunc, 139);
+  RUN_TEST(test_ThrowAndCatchFromASubFunctionAndNoRethrowToCatchInRootFunc, 158);
+  RUN_TEST(test_ThrowAnErrorThenEnterATryBlockFromWithinCatch_VerifyThisDoesntCorruptExceptionId, 175);
+  RUN_TEST(test_ThrowAnErrorThenEnterATryBlockFromWithinCatch_VerifyThatEachExceptionIdIndependent, 193);
+  RUN_TEST(test_CanHaveMultipleTryBlocksInASingleFunction, 220);
+  RUN_TEST(test_CanHaveNestedTryBlocksInASingleFunction_ThrowInside, 245);
+  RUN_TEST(test_CanHaveNestedTryBlocksInASingleFunction_ThrowOutside, 269);
 
   UnityEnd();
   
