@@ -20,7 +20,7 @@ void test_BasicTryDoesNothingIfNoThrow(void)
   }
   Catch(e)
   {
-    TEST_FAIL("Should Not Enter Catch If Not Thrown")
+    TEST_FAIL_MESSAGE("Should Not Enter Catch If Not Thrown")
   }
   
   //verify that e was untouched
@@ -34,7 +34,7 @@ void test_BasicThrowAndCatch(void)
   Try
   {
     Throw(0xBEEFBEEF);
-    TEST_FAIL("Should Have Thrown An Error")
+    TEST_FAIL_MESSAGE("Should Have Thrown An Error")
   }
   Catch(e)
   {
@@ -61,7 +61,7 @@ void test_BasicThrowAndCatch_WithMiniSyntax(void)
   Try
     e = 0;
   Catch(e)
-    TEST_FAIL("I shouldn't be caught because there was no throw");
+    TEST_FAIL_MESSAGE("I shouldn't be caught because there was no throw");
 
   TEST_ASSERT_EQUAL(0, e);
 }
@@ -75,7 +75,7 @@ void test_VerifyVolatilesSurviveThrowAndCatch(void)
   {
     VolVal = 2;
     Throw(0xBEEFBEEF);
-    TEST_FAIL("Should Have Thrown An Error")
+    TEST_FAIL_MESSAGE("Should Have Thrown An Error")
   }
   Catch(e)
   {
@@ -104,7 +104,7 @@ void test_ThrowFromASubFunctionAndCatchInRootFunc(void)
   {
 
     HappyExceptionThrower(0xBADDF00D);
-    TEST_FAIL("Should Have Thrown An Exception");
+    TEST_FAIL_MESSAGE("Should Have Thrown An Exception");
   }
   Catch(e)
   {
@@ -144,7 +144,7 @@ void test_ThrowAndCatchFromASubFunctionAndRethrowToCatchInRootFunc(void)
   Try
   {
     HappyExceptionRethrower(0xBADDF00D);
-    TEST_FAIL("Should Have Rethrown Exception");
+    TEST_FAIL_MESSAGE("Should Have Rethrown Exception");
   }
   Catch(e)
   {
@@ -165,7 +165,7 @@ void test_ThrowAndCatchFromASubFunctionAndNoRethrowToCatchInRootFunc(void)
   }
   Catch(e)
   {
-    TEST_FAIL("Should Not Have Re-thrown Error (it should have already been caught)");
+    TEST_FAIL_MESSAGE("Should Not Have Re-thrown Error (it should have already been caught)");
   }
   
   //verify that THIS e is still untouched, even though subfunction was touched
@@ -179,7 +179,7 @@ void test_ThrowAnErrorThenEnterATryBlockFromWithinCatch_VerifyThisDoesntCorruptE
   Try
   {
     HappyExceptionThrower(0xBADDBEEF);
-    TEST_FAIL("Should Have Thrown Exception");
+    TEST_FAIL_MESSAGE("Should Have Thrown Exception");
   }
   Catch(e)
   {
@@ -197,7 +197,7 @@ void test_ThrowAnErrorThenEnterATryBlockFromWithinCatch_VerifyThatEachExceptionI
   Try
   {
     HappyExceptionThrower(0xBADDBEEF);
-    TEST_FAIL("Should Have Thrown Exception");
+    TEST_FAIL_MESSAGE("Should Have Thrown Exception");
   }
   Catch(e1)
   {
@@ -224,7 +224,7 @@ void test_CanHaveMultipleTryBlocksInASingleFunction(void)
   Try
   {
     HappyExceptionThrower(0x01234567);
-    TEST_FAIL("Should Have Thrown Exception");
+    TEST_FAIL_MESSAGE("Should Have Thrown Exception");
   }
   Catch(e)
   {
@@ -234,7 +234,7 @@ void test_CanHaveMultipleTryBlocksInASingleFunction(void)
   Try
   {
     HappyExceptionThrower(0xF00D8888);
-    TEST_FAIL("Should Have Thrown Exception");
+    TEST_FAIL_MESSAGE("Should Have Thrown Exception");
   }
   Catch(e)
   {
@@ -253,7 +253,7 @@ void test_CanHaveNestedTryBlocksInASingleFunction_ThrowInside(void)
     {
       HappyExceptionThrower(0x01234567);
       i = 1;
-      TEST_FAIL("Should Have Rethrown Exception");
+      TEST_FAIL_MESSAGE("Should Have Rethrown Exception");
     }
     Catch(e)
     {
@@ -262,7 +262,7 @@ void test_CanHaveNestedTryBlocksInASingleFunction_ThrowInside(void)
   }
   Catch(e)
   {
-    TEST_FAIL("Should Have Been Caught By Inside Catch");
+    TEST_FAIL_MESSAGE("Should Have Been Caught By Inside Catch");
   }
 }
 
@@ -279,10 +279,10 @@ void test_CanHaveNestedTryBlocksInASingleFunction_ThrowOutside(void)
     }
     Catch(e)
     {
-      TEST_FAIL("Should NotBe Caught Here");
+      TEST_FAIL_MESSAGE("Should NotBe Caught Here");
     }
     HappyExceptionThrower(0x01234567);
-    TEST_FAIL("Should Have Rethrown Exception");
+    TEST_FAIL_MESSAGE("Should Have Rethrown Exception");
   }
   Catch(e)
   {

@@ -30,7 +30,7 @@ static void runTest(UnityTestFunction test)
     }
     Catch(e)
     {
-      TEST_FAIL("Unexpected exception!")
+      TEST_FAIL_MESSAGE("Unexpected exception!")
     }
   }
   tearDown();
