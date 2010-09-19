@@ -48,7 +48,7 @@ extern volatile CEXCEPTION_FRAME_T CExceptionFrames[];
         jmp_buf *PrevFrame, NewFrame;                               \
         unsigned int MY_ID = CEXCEPTION_GET_ID;                     \
         PrevFrame = CExceptionFrames[CEXCEPTION_GET_ID].pFrame;     \
-        CExceptionFrames[MY_ID].pFrame = &NewFrame;                 \
+        CExceptionFrames[MY_ID].pFrame = (jmp_buf*)(&NewFrame);     \
         CExceptionFrames[MY_ID].Exception = CEXCEPTION_NONE;        \
         if (setjmp(NewFrame) == 0) {                                \
             if (&PrevFrame) 

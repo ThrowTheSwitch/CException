@@ -12,7 +12,7 @@ void tearDown(void)
 void test_BasicTryDoesNothingIfNoThrow(void)
 {
   int i;
-  CEXCEPTION_T e = 0x5a5a;
+  CEXCEPTION_T e = 0x5a;
   
   Try
   {
@@ -24,7 +24,7 @@ void test_BasicTryDoesNothingIfNoThrow(void)
   }
   
   //verify that e was untouched
-  TEST_ASSERT_EQUAL(0x5a5a, e);
+  TEST_ASSERT_EQUAL(0x5a, e);
 }
 
 void test_BasicThrowAndCatch(void)
@@ -33,17 +33,17 @@ void test_BasicThrowAndCatch(void)
 
   Try
   {
-    Throw(0xBEEFBEEF);
+    Throw(0xBE);
     TEST_FAIL_MESSAGE("Should Have Thrown An Error")
   }
   Catch(e)
   {
     //verify that e has the right data
-    TEST_ASSERT_EQUAL(0xBEEFBEEF, e);
+    TEST_ASSERT_EQUAL(0xBE, e);
   }
 
   //verify that e STILL has the right data
-  TEST_ASSERT_EQUAL(0xBEEFBEEF, e);
+  TEST_ASSERT_EQUAL(0xBE, e);
 }
 
 void test_BasicThrowAndCatch_WithMiniSyntax(void)
@@ -52,10 +52,10 @@ void test_BasicThrowAndCatch_WithMiniSyntax(void)
 
   //Mini Throw and Catch
   Try
-    Throw(0xBEEFBEEF);
+    Throw(0xEF);
   Catch(e)
-    TEST_ASSERT_EQUAL(0xBEEFBEEF, e);
-  TEST_ASSERT_EQUAL(0xBEEFBEEF, e);
+    TEST_ASSERT_EQUAL(0xEF, e);
+  TEST_ASSERT_EQUAL(0xEF, e);
   
   //Mini Passthrough
   Try
@@ -74,17 +74,17 @@ void test_VerifyVolatilesSurviveThrowAndCatch(void)
   Try
   {
     VolVal = 2;
-    Throw(0xBEEFBEEF);
+    Throw(0xBF);
     TEST_FAIL_MESSAGE("Should Have Thrown An Error")
   }
   Catch(e)
   {
     VolVal += 2;
-    TEST_ASSERT_EQUAL(0xBEEFBEEF, e);
+    TEST_ASSERT_EQUAL(0xBF, e);
   }
 
   TEST_ASSERT_EQUAL(4, VolVal);
-  TEST_ASSERT_EQUAL(0xBEEFBEEF, e);
+  TEST_ASSERT_EQUAL(0xBF, e);
 }
 
 void HappyExceptionThrower(unsigned int ID)
@@ -103,7 +103,7 @@ void test_ThrowFromASubFunctionAndCatchInRootFunc(void)
   Try
   {
 
-    HappyExceptionThrower(0xBADDF00D);
+    HappyExceptionThrower(0xBA);
     TEST_FAIL_MESSAGE("Should Have Thrown An Exception");
   }
   Catch(e)
@@ -112,7 +112,7 @@ void test_ThrowFromASubFunctionAndCatchInRootFunc(void)
   }
 
   //verify that I can pass that value to something else
-  TEST_ASSERT_EQUAL(0xBADDF00D, e);
+  TEST_ASSERT_EQUAL(0xBA, e);
 }
 
 void HappyExceptionRethrower(unsigned int ID)
@@ -127,8 +127,8 @@ void HappyExceptionRethrower(unsigned int ID)
   {
     switch (e)
     {
-    case 0xBADDF00D:
-      Throw(0xBADDBEEF);
+    case 0xBD:
+      Throw(0xBF);
       break;
     default:
       break;
@@ -143,7 +143,7 @@ void test_ThrowAndCatchFromASubFunctionAndRethrowToCatchInRootFunc(void)
   
   Try
   {
-    HappyExceptionRethrower(0xBADDF00D);
+    HappyExceptionRethrower(0xBD);
     TEST_FAIL_MESSAGE("Should Have Rethrown Exception");
   }
   Catch(e)
@@ -151,7 +151,7 @@ void test_ThrowAndCatchFromASubFunctionAndRethrowToCatchInRootFunc(void)
     ID = 1;
   }
 
-  TEST_ASSERT_EQUAL(0xBADDBEEF, e);
+  TEST_ASSERT_EQUAL(0xBF, e);
   TEST_ASSERT_EQUAL(1, ID);
 }
 
@@ -161,7 +161,7 @@ void test_ThrowAndCatchFromASubFunctionAndNoRethrowToCatchInRootFunc(void)
   
   Try
   {
-    HappyExceptionRethrower(0xBADDBEEF);
+    HappyExceptionRethrower(0xBF);
   }
   Catch(e)
   {
@@ -178,16 +178,16 @@ void test_ThrowAnErrorThenEnterATryBlockFromWithinCatch_VerifyThisDoesntCorruptE
   
   Try
   {
-    HappyExceptionThrower(0xBADDBEEF);
+    HappyExceptionThrower(0xBF);
     TEST_FAIL_MESSAGE("Should Have Thrown Exception");
   }
   Catch(e)
   {
-    TEST_ASSERT_EQUAL(0xBADDBEEF, e);
-    HappyExceptionRethrower(0x12345678);
-    TEST_ASSERT_EQUAL(0xBADDBEEF, e);
+    TEST_ASSERT_EQUAL(0xBF, e);
+    HappyExceptionRethrower(0x12);
+    TEST_ASSERT_EQUAL(0xBF, e);
   }
-  TEST_ASSERT_EQUAL(0xBADDBEEF, e);
+  TEST_ASSERT_EQUAL(0xBF, e);
 }
 
 void test_ThrowAnErrorThenEnterATryBlockFromWithinCatch_VerifyThatEachExceptionIdIndependent(void)
@@ -196,25 +196,25 @@ void test_ThrowAnErrorThenEnterATryBlockFromWithinCatch_VerifyThatEachExceptionI
   
   Try
   {
-    HappyExceptionThrower(0xBADDBEEF);
+    HappyExceptionThrower(0xBF);
     TEST_FAIL_MESSAGE("Should Have Thrown Exception");
   }
   Catch(e1)
   {
-    TEST_ASSERT_EQUAL(0xBADDBEEF, e1);
+    TEST_ASSERT_EQUAL(0xBF, e1);
     Try
     {
-      HappyExceptionThrower(0x12345678);
+      HappyExceptionThrower(0x12);
     }
     Catch(e2)
     {
-      TEST_ASSERT_EQUAL(0x12345678, e2);
+      TEST_ASSERT_EQUAL(0x12, e2);
     }
-    TEST_ASSERT_EQUAL(0x12345678, e2);
-    TEST_ASSERT_EQUAL(0xBADDBEEF, e1);
+    TEST_ASSERT_EQUAL(0x12, e2);
+    TEST_ASSERT_EQUAL(0xBF, e1);
   }
-  TEST_ASSERT_EQUAL(0x12345678, e2);
-  TEST_ASSERT_EQUAL(0xBADDBEEF, e1);
+  TEST_ASSERT_EQUAL(0x12, e2);
+  TEST_ASSERT_EQUAL(0xBF, e1);
 }
 
 void test_CanHaveMultipleTryBlocksInASingleFunction(void)
@@ -223,22 +223,22 @@ void test_CanHaveMultipleTryBlocksInASingleFunction(void)
   
   Try
   {
-    HappyExceptionThrower(0x01234567);
+    HappyExceptionThrower(0x01);
     TEST_FAIL_MESSAGE("Should Have Thrown Exception");
   }
   Catch(e)
   {
-    TEST_ASSERT_EQUAL(0x01234567, e);
+    TEST_ASSERT_EQUAL(0x01, e);
   }
 
   Try
   {
-    HappyExceptionThrower(0xF00D8888);
+    HappyExceptionThrower(0xF0);
     TEST_FAIL_MESSAGE("Should Have Thrown Exception");
   }
   Catch(e)
   {
-    TEST_ASSERT_EQUAL(0xF00D8888, e);
+    TEST_ASSERT_EQUAL(0xF0, e);
   }
 }
 
@@ -251,13 +251,13 @@ void test_CanHaveNestedTryBlocksInASingleFunction_ThrowInside(void)
   {
     Try
     {
-      HappyExceptionThrower(0x01234567);
+      HappyExceptionThrower(0x01);
       i = 1;
       TEST_FAIL_MESSAGE("Should Have Rethrown Exception");
     }
     Catch(e)
     {
-      TEST_ASSERT_EQUAL(0x01234567, e);
+      TEST_ASSERT_EQUAL(0x01, e);
     }
   }
   Catch(e)
@@ -281,11 +281,11 @@ void test_CanHaveNestedTryBlocksInASingleFunction_ThrowOutside(void)
     {
       TEST_FAIL_MESSAGE("Should NotBe Caught Here");
     }
-    HappyExceptionThrower(0x01234567);
+    HappyExceptionThrower(0x01);
     TEST_FAIL_MESSAGE("Should Have Rethrown Exception");
   }
   Catch(e)
   {
-    TEST_ASSERT_EQUAL(0x01234567, e);
+    TEST_ASSERT_EQUAL(0x01, e);
   }
 }
