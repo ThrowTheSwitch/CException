@@ -3,7 +3,7 @@ HERE = File.expand_path(File.dirname(__FILE__)) + '/'
 require 'rake'
 require 'rake/clean'
 require 'rake/testtask'
-require 'vendor/unity/auto/colour_reporter.rb'
+require HERE+'vendor/unity/auto/colour_reporter.rb'
 
 #Tool and Lib Locations
 C_COMPILER = 'gcc'
