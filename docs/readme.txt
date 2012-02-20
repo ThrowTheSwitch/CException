@@ -187,6 +187,12 @@ EXCEPTION_NUM_ID - If in a multi-tasking environment, this should be set
                    tasks in the system).  Defaults to 1 (for single
                    tasking environments).
 
+CEXCEPTION_NO_CATCH_HANDLER(id) - This macro can be optionally specified.  
+                   It allows you to specify code to be called when a Throw 
+                   is made outside of Try...Catch protection.  Consider 
+                   this the emergency fallback plan for when something has 
+                   gone terribly wrong.
+
 You may also want to include any header files which will commonly be
 needed by the rest of your application where it uses exception handling 
 here.  For example, OS header files or exception codes would be useful.
@@ -207,7 +213,7 @@ to compile and run the test application.
 C_COMPILER - The C compiler to use to perform the tests
 C_LIBS - The path to the C libraries (including setjmp) 
 UNITY_DIR - The path to the Unity framework (required to run tests)
-            (get it at http://embunity.sourceforge.net)
+            (get it at http://unity.sourceforge.net)
 
 --------------------------------------------------------------------
 LICENSE
@@ -215,7 +221,7 @@ LICENSE
 
 This software is licensed under the MIT License
 
-Copyright (c) 2007 Mark VanderVoord
+Copyright (c) 2007-2012 Mark VanderVoord
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
