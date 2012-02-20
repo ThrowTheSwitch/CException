@@ -1,6 +1,6 @@
 #include "CException.h"
 
-volatile CEXCEPTION_FRAME_T CExceptionFrames[CEXCEPTION_NUM_ID];
+volatile CEXCEPTION_FRAME_T CExceptionFrames[CEXCEPTION_NUM_ID] = { 0 };
 
 //------------------------------------------------------------------------------------------
 //  Throw
@@ -9,11 +9,15 @@ void Throw(CEXCEPTION_T ExceptionID)
 {
     unsigned int MY_ID = CEXCEPTION_GET_ID;
     CExceptionFrames[MY_ID].Exception = ExceptionID;
-    longjmp(*CExceptionFrames[MY_ID].pFrame, 1);
+    if (CExceptionFrames[MY_ID].pFrame)
+    {
+        longjmp(*CExceptionFrames[MY_ID].pFrame, 1);
+    }
+    CEXCEPTION_NO_CATCH_HANDLER(MY_ID);
 }
 
 //------------------------------------------------------------------------------------------
-//  Explaination of what it's all for:
+//  Explanation of what it's all for:
 //------------------------------------------------------------------------------------------
 /*
 #define Try                                                         

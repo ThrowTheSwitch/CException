@@ -3,6 +3,12 @@
 
 #include <setjmp.h>
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
+
 //To Use CException, you have a number of options:
 //1. Just include it and run with the defaults
 //2. Define any of the following symbols at the command line to override them
@@ -31,6 +37,11 @@
 //The type to use to store the exception values.
 #ifndef CEXCEPTION_T
 #define CEXCEPTION_T         unsigned int
+#endif
+
+//This is an optional special handler for when there is no global Catch
+#ifndef CEXCEPTION_NO_CATCH_HANDLER
+#define CEXCEPTION_NO_CATCH_HANDLER(id)
 #endif
 
 //exception frame structures
@@ -66,5 +77,10 @@ extern volatile CEXCEPTION_FRAME_T CExceptionFrames[];
 
 //Throw an Error
 void Throw(CEXCEPTION_T ExceptionID);
+
+#ifdef __cplusplus
+}   // extern "C"
+#endif
+
 
 #endif // _CEXCEPTION_H

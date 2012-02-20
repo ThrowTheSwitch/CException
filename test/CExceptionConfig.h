@@ -1,13 +1,30 @@
 #ifndef _EXCEPTION_H
 #define _EXCEPTION_H
 
+#include "Unity.h"
+
+extern volatile int TestingTheFallback;
+
 //Optionally define the exception type (something like an int which can be directly assigned)
 #define CEXCEPTION_T    int
 
 // Optionally define the reserved value representing NO EXCEPTION
 #define CEXCEPTION_NONE (1234)
 
-// Multi-Tasking environments will need a couple of macros defined to make this library 
+// Optionally define a special handler for unhandled exceptions
+#define CEXCEPTION_NO_CATCH_HANDLER(id)             \
+{                                                   \
+    if (!TestingTheFallback)                        \
+    {                                               \
+        TEST_FAIL_MESSAGE("Unexpected Exception!"); \
+    }                                               \
+    else                                            \
+    {                                               \
+        TestingTheFallback--;                       \
+    }                                               \
+}
+
+// Multi-Tasking environments will need a couple of macros defined to make this library
 // properly handle  multiple exception stacks.  You will need to include and required
 // definitions, then define the following macros:
 //    EXCEPTION_GET_ID - returns the id of the current task indexed 0 to (numtasks - 1)

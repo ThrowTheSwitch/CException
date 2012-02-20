@@ -17,21 +17,14 @@ extern void test_CanHaveNestedTryBlocksInASingleFunction_ThrowInside(void);
 extern void test_CanHaveNestedTryBlocksInASingleFunction_ThrowOutside(void);
 extern void test_ThrowAnErrorThenEnterATryBlockFromWithinCatch_VerifyThisDoesntCorruptExceptionId(void);
 extern void test_ThrowAnErrorThenEnterATryBlockFromWithinCatch_VerifyThatEachExceptionIdIndependent(void);
+extern void test_AThrowWithoutATryCatchWillUseDefaultHandlerIfSpecified(void);
+extern void test_AThrowWithoutOutsideATryCatchWillUseDefaultHandlerEvenAfterTryCatch(void);
 
 static void runTest(UnityTestFunction test)
 {
-  CEXCEPTION_T e;
   if (TEST_PROTECT())
   {
-    setUp();
-    Try
-    {
       test();
-    }
-    Catch(e)
-    {
-      TEST_FAIL_MESSAGE("Unexpected exception!")
-    }
   }
   tearDown();
 }
@@ -43,18 +36,20 @@ int main(void)
   UnityBegin();
 
   // RUN_TEST calls runTest
-  RUN_TEST(test_BasicTryDoesNothingIfNoThrow, 12);
-  RUN_TEST(test_BasicThrowAndCatch, 30);
-  RUN_TEST(test_BasicThrowAndCatch_WithMiniSyntax, 49);
-  RUN_TEST(test_VerifyVolatilesSurviveThrowAndCatch, 69);
-  RUN_TEST(test_ThrowFromASubFunctionAndCatchInRootFunc, 98);
-  RUN_TEST(test_ThrowAndCatchFromASubFunctionAndRethrowToCatchInRootFunc, 139);
-  RUN_TEST(test_ThrowAndCatchFromASubFunctionAndNoRethrowToCatchInRootFunc, 158);
-  RUN_TEST(test_ThrowAnErrorThenEnterATryBlockFromWithinCatch_VerifyThisDoesntCorruptExceptionId, 175);
-  RUN_TEST(test_ThrowAnErrorThenEnterATryBlockFromWithinCatch_VerifyThatEachExceptionIdIndependent, 193);
-  RUN_TEST(test_CanHaveMultipleTryBlocksInASingleFunction, 220);
-  RUN_TEST(test_CanHaveNestedTryBlocksInASingleFunction_ThrowInside, 245);
-  RUN_TEST(test_CanHaveNestedTryBlocksInASingleFunction_ThrowOutside, 269);
+  RUN_TEST(test_BasicTryDoesNothingIfNoThrow, 15);
+  RUN_TEST(test_BasicThrowAndCatch, 33);
+  RUN_TEST(test_BasicThrowAndCatch_WithMiniSyntax, 52);
+  RUN_TEST(test_VerifyVolatilesSurviveThrowAndCatch, 72);
+  RUN_TEST(test_ThrowFromASubFunctionAndCatchInRootFunc, 101);
+  RUN_TEST(test_ThrowAndCatchFromASubFunctionAndRethrowToCatchInRootFunc, 142);
+  RUN_TEST(test_ThrowAndCatchFromASubFunctionAndNoRethrowToCatchInRootFunc, 161);
+  RUN_TEST(test_ThrowAnErrorThenEnterATryBlockFromWithinCatch_VerifyThisDoesntCorruptExceptionId, 178);
+  RUN_TEST(test_ThrowAnErrorThenEnterATryBlockFromWithinCatch_VerifyThatEachExceptionIdIndependent, 196);
+  RUN_TEST(test_CanHaveMultipleTryBlocksInASingleFunction, 223);
+  RUN_TEST(test_CanHaveNestedTryBlocksInASingleFunction_ThrowInside, 248);
+  RUN_TEST(test_CanHaveNestedTryBlocksInASingleFunction_ThrowOutside, 272);
+  RUN_TEST(test_AThrowWithoutATryCatchWillUseDefaultHandlerIfSpecified, 296);
+  RUN_TEST(test_AThrowWithoutOutsideATryCatchWillUseDefaultHandlerEvenAfterTryCatch, 308);
 
   UnityEnd();
   

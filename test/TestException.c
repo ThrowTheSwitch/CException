@@ -1,8 +1,12 @@
 #include "unity.h"
 #include "CException.h"
 
+volatile int TestingTheFallback;
+
 void setUp(void)
 {
+    CExceptionFrames[0].pFrame = NULL;
+    TestingTheFallback = 0;
 }
 
 void tearDown(void)
@@ -288,4 +292,37 @@ void test_CanHaveNestedTryBlocksInASingleFunction_ThrowOutside(void)
   {
     TEST_ASSERT_EQUAL(0x01, e);
   }
+}
+
+void test_AThrowWithoutATryCatchWillUseDefaultHandlerIfSpecified(void)
+{
+    //Let the fallback handler know we're expecting it to get called this time, so don't fail
+    TestingTheFallback = 1;
+
+    Throw(0xBE);
+
+    //We know the fallback was run because it decrements the counter above
+    TEST_ASSERT_FALSE(TestingTheFallback);
+}
+
+void test_AThrowWithoutOutsideATryCatchWillUseDefaultHandlerEvenAfterTryCatch(void)
+{
+    CEXCEPTION_T e;
+
+    Try
+    {
+        //It's not really important that we do anything here.
+    }
+    Catch(e)
+    {
+        //The entire purpose here is just to make sure things get set back to using the default handler when done
+    }
+
+    //Let the fallback handler know we're expecting it to get called this time, so don't fail
+    TestingTheFallback = 1;
+
+    Throw(0xBE);
+
+    //We know the fallback was run because it decrements the counter above
+    TEST_ASSERT_FALSE(TestingTheFallback);
 }
