@@ -47,7 +47,7 @@ extern "C"
 //exception frame structures
 typedef struct {
   jmp_buf* pFrame;
-  volatile CEXCEPTION_T Exception;
+  CEXCEPTION_T volatile Exception;
 } CEXCEPTION_FRAME_T;
 
 //actual root frame storage (only one if single-tasking)
