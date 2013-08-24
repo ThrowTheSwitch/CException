@@ -15,20 +15,23 @@ void tearDown(void)
 
 void test_BasicTryDoesNothingIfNoThrow(void)
 {
-  int i;
+  int i = 0;
   CEXCEPTION_T e = 0x5a;
-  
+
   Try
   {
     i += 1;
   }
   Catch(e)
   {
-    TEST_FAIL_MESSAGE("Should Not Enter Catch If Not Thrown")
+    TEST_FAIL_MESSAGE("Should Not Enter Catch If Not Thrown");
   }
-  
+
   //verify that e was untouched
   TEST_ASSERT_EQUAL(0x5a, e);
+
+  // verify that i was incremented once
+  TEST_ASSERT_EQUAL(1, i);
 }
 
 void test_BasicThrowAndCatch(void)
@@ -60,7 +63,7 @@ void test_BasicThrowAndCatch_WithMiniSyntax(void)
   Catch(e)
     TEST_ASSERT_EQUAL(0xEF, e);
   TEST_ASSERT_EQUAL(0xEF, e);
-  
+
   //Mini Passthrough
   Try
     e = 0;
@@ -117,12 +120,14 @@ void test_ThrowFromASubFunctionAndCatchInRootFunc(void)
 
   //verify that I can pass that value to something else
   TEST_ASSERT_EQUAL(0xBA, e);
+  //verify that ID and e have the same value
+  TEST_ASSERT_EQUAL(ID, e);
 }
 
 void HappyExceptionRethrower(unsigned int ID)
 {
   CEXCEPTION_T e;
-  
+
   Try
   {
     Throw(ID);
@@ -144,7 +149,7 @@ void test_ThrowAndCatchFromASubFunctionAndRethrowToCatchInRootFunc(void)
 {
   volatile  unsigned int ID = 0;
   CEXCEPTION_T e;
-  
+
   Try
   {
     HappyExceptionRethrower(0xBD);
@@ -162,7 +167,7 @@ void test_ThrowAndCatchFromASubFunctionAndRethrowToCatchInRootFunc(void)
 void test_ThrowAndCatchFromASubFunctionAndNoRethrowToCatchInRootFunc(void)
 {
   CEXCEPTION_T e = 3;
-  
+
   Try
   {
     HappyExceptionRethrower(0xBF);
@@ -171,7 +176,7 @@ void test_ThrowAndCatchFromASubFunctionAndNoRethrowToCatchInRootFunc(void)
   {
     TEST_FAIL_MESSAGE("Should Not Have Re-thrown Error (it should have already been caught)");
   }
-  
+
   //verify that THIS e is still untouched, even though subfunction was touched
   TEST_ASSERT_EQUAL(3, e);
 }
@@ -179,7 +184,7 @@ void test_ThrowAndCatchFromASubFunctionAndNoRethrowToCatchInRootFunc(void)
 void test_ThrowAnErrorThenEnterATryBlockFromWithinCatch_VerifyThisDoesntCorruptExceptionId(void)
 {
   CEXCEPTION_T e;
-  
+
   Try
   {
     HappyExceptionThrower(0xBF);
@@ -197,7 +202,7 @@ void test_ThrowAnErrorThenEnterATryBlockFromWithinCatch_VerifyThisDoesntCorruptE
 void test_ThrowAnErrorThenEnterATryBlockFromWithinCatch_VerifyThatEachExceptionIdIndependent(void)
 {
   CEXCEPTION_T e1, e2;
-  
+
   Try
   {
     HappyExceptionThrower(0xBF);
@@ -224,7 +229,7 @@ void test_ThrowAnErrorThenEnterATryBlockFromWithinCatch_VerifyThatEachExceptionI
 void test_CanHaveMultipleTryBlocksInASingleFunction(void)
 {
   CEXCEPTION_T e;
-  
+
   Try
   {
     HappyExceptionThrower(0x01);
@@ -250,7 +255,7 @@ void test_CanHaveNestedTryBlocksInASingleFunction_ThrowInside(void)
 {
   int i = 0;
   CEXCEPTION_T e;
-  
+
   Try
   {
     Try
@@ -268,13 +273,16 @@ void test_CanHaveNestedTryBlocksInASingleFunction_ThrowInside(void)
   {
     TEST_FAIL_MESSAGE("Should Have Been Caught By Inside Catch");
   }
+
+  // verify that i is still zero
+  TEST_ASSERT_EQUAL(0, i);
 }
 
 void test_CanHaveNestedTryBlocksInASingleFunction_ThrowOutside(void)
 {
   int i = 0;
   CEXCEPTION_T e;
-  
+
   Try
   {
     Try
@@ -292,6 +300,9 @@ void test_CanHaveNestedTryBlocksInASingleFunction_ThrowOutside(void)
   {
     TEST_ASSERT_EQUAL(0x01, e);
   }
+
+  // verify that i is 2
+  TEST_ASSERT_EQUAL(2, i);
 }
 
 void test_AThrowWithoutATryCatchWillUseDefaultHandlerIfSpecified(void)
