@@ -4,6 +4,7 @@
 #include "unity.h"
 
 extern volatile int TestingTheFallback;
+extern volatile int TestingTheFallbackId;
 
 //Optionally define the exception type (something like an int which can be directly assigned)
 #define CEXCEPTION_T    int
@@ -20,6 +21,7 @@ extern volatile int TestingTheFallback;
     }                                               \
     else                                            \
     {                                               \
+        TestingTheFallbackId = id;                  \
         TestingTheFallback--;                       \
     }                                               \
 }
