@@ -2,6 +2,7 @@
 #include "CException.h"
 
 volatile int TestingTheFallback;
+volatile int TestingTheFallbackId;
 
 void setUp(void)
 {
@@ -314,6 +315,7 @@ void test_AThrowWithoutATryCatchWillUseDefaultHandlerIfSpecified(void)
 
     //We know the fallback was run because it decrements the counter above
     TEST_ASSERT_FALSE(TestingTheFallback);
+    TEST_ASSERT_EQUAL(0xBE, TestingTheFallbackId);
 }
 
 void test_AThrowWithoutOutsideATryCatchWillUseDefaultHandlerEvenAfterTryCatch(void)
@@ -336,4 +338,5 @@ void test_AThrowWithoutOutsideATryCatchWillUseDefaultHandlerEvenAfterTryCatch(vo
 
     //We know the fallback was run because it decrements the counter above
     TEST_ASSERT_FALSE(TestingTheFallback);
+    TEST_ASSERT_EQUAL(0xBE, TestingTheFallbackId);
 }
