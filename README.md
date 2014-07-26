@@ -95,7 +95,6 @@ CException API
 * `Throw(e)`
 	* `Throw` is the method used to throw an error. `Throw`s should only occur from within a protected (`Try`...`Catch`) block, though it may easily be nested many function calls deep without an impact on performance or functionality. `Throw` takes a single argument, which is an exception id which will be passed to `Catch` as the reason for the error. If you wish to _re-throw_ an error, this can be done by calling `Throw(e)` with the error code you just caught. It _IS_ valid to throw from a `Catch` block.
 
-
 Configuration
 =============
 
@@ -123,7 +122,6 @@ You have options for configuring the library, if the defaults aren't good enough
 	* This macro can be optionally specified. It allows you to specify code to be called when a Throw is made outside of Try...Catch protection. Consider this the emergency fallback plan for when something has gone terribly wrong.
 
 You may also want to include any header files which will commonly be needed by the rest of your application where it uses exception handling here. For example, OS header files or exception codes would be useful.
-
 
 Testing
 =======
