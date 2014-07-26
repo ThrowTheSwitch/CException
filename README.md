@@ -1,6 +1,7 @@
 CException - Lightweight exception library for C
 ================================================
 [![CException Build Status](https://api.travis-ci.org/ThrowTheSwitch/CException.png?branch=master)](https://travis-ci.org/ThrowTheSwitch/CException)
+
 _This Documentation Is Released Under a Creative Commons 3.0 Attribution Share-Alike License_
 
 CException is simple exception handling in C. It is significantly faster than full-blown C++ exception handling but loses some flexibility. It is portable to any platform supporting `setjmp`/`longjmp`.
