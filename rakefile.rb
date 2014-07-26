@@ -22,8 +22,9 @@ SYMBOLS = '-DTEST -DCEXCEPTION_USE_CONFIG_FILE'
 
 CLEAN.include("#{HERE}*.out")
 
-task :default => [:clobber, :test]
-task :cruise => [:no_color, :default]
+task :no_color do
+  $colour_output = false
+end
 
 desc "performs a quick set of unit tests to confirm you're ready to go"
 task :test do
@@ -36,6 +37,6 @@ task :test do
   report output
 end
 
-task :no_color do
-  $colour_output = false
-end
+task :default => [:clobber, :test]
+task :ci => [:no_color, :default]
+task :cruise => :ci
