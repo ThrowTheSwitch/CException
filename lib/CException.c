@@ -1,6 +1,6 @@
 #include "CException.h"
 
-volatile CEXCEPTION_FRAME_T CExceptionFrames[CEXCEPTION_NUM_ID] = { 0 };
+volatile CEXCEPTION_FRAME_T CExceptionFrames[CEXCEPTION_NUM_ID] = {{ 0 }};
 
 //------------------------------------------------------------------------------------------
 //  Throw
