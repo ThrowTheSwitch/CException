@@ -1,8 +1,6 @@
 CException - Lightweight exception library for C
 ================================================
-
 [![CException Build Status](https://api.travis-ci.org/ThrowTheSwitch/CException.png?branch=master)](https://travis-ci.org/ThrowTheSwitch/CException)
-
 _This Documentation Is Released Under a Creative Commons 3.0 Attribution Share-Alike License_
 
 CException is simple exception handling in C. It is significantly faster than full-blown C++ exception handling but loses some flexibility. It is portable to any platform supporting `setjmp`/`longjmp`.
@@ -18,13 +16,13 @@ Getting Started
 Usage
 =====
 
-*So what's it good for?*
+*_So what's it good for?_*
 
 Mostly error handling. Passing errors down a long chain of function calls gets ugly. Sometimes really ugly. So what if you could just specify certain places where you want to handle errors, and all your errors were transferred there? Let's try a lame example:
 
 CException uses C standard library functions setjmp and longjmp to operate. As long as the target system has these two functions defined, this library should be useable with very little configuration. It even supports environments where multiple program flows are in use, such as real-time operating systems... we started this project for use in embedded systems... but it obviously can be used for larger systems too.
 
-*Error Handling with CException:*
+*_Error Handling with CException:_*
 
 ```
 void functionC(void) {
@@ -39,11 +37,11 @@ There are about a gajillion exception frameworks using a similar setjmp/longjmp 
 Why?
 ====
 
-# It's ANSI C, and it beats passing error codes around.
+* It's ANSI C, and it beats passing error codes around.
 
-# You want something simple... CException throws a single id. You can define those ID's to be whatever you like. You might even choose which type that number is for your project. But that's as far as it goes. We weren't interested in passing objects or structs or strings... just simple error codes. Fast. Easy to Use. Easy to Understand.
+* *You want something simple...* CException throws a single id. You can define those ID's to be whatever you like. You might even choose which type that number is for your project. But that's as far as it goes. We weren't interested in passing objects or structs or strings... just simple error codes. Fast. Easy to Use. Easy to Understand.
 
-# Performance... CException can be configured for single tasking or multitasking. In single tasking, there is very little overhead past the setjmp/longjmp calls (which are already fast). In multitasking, your only additional overhead is the time it takes you to determine a unique task id (0 to num_tasks).
+* *Performance...* CException can be configured for single tasking or multitasking. In single tasking, there is very little overhead past the setjmp/longjmp calls (which are already fast). In multitasking, your only additional overhead is the time it takes you to determine a unique task id (0 to num_tasks).
 
 How?
 ====
@@ -81,7 +79,7 @@ This library was made to be as fast as possible, and provide basic exception han
 	* Compilers optimize (and thank goodness they do). There is no way to guarantee that the actual memory location was updated and not just a register unless the variable is marked volatile.
 
 * Memory which is `malloc`'d within a `Try` block is not automatically released when an error is thrown. This will sometimes be desirable, and othertimes may not. It will be the responsibility of the code you put in the `Catch` block to perform this kind of cleanup.
-	# There's just no easy way to track `malloc`'d memory, etc., without replacing or wrapping `malloc` calls or something like that. This is a lightweight framework, so these options were not desirable.
+	* There's just no easy way to track `malloc`'d memory, etc., without replacing or wrapping `malloc` calls or something like that. This is a lightweight framework, so these options were not desirable.
 
 CException API
 ==============
@@ -96,6 +94,7 @@ CException API
 
 * `Throw(e)`
 	* `Throw` is the method used to throw an error. `Throw`s should only occur from within a protected (`Try`...`Catch`) block, though it may easily be nested many function calls deep without an impact on performance or functionality. `Throw` takes a single argument, which is an exception id which will be passed to `Catch` as the reason for the error. If you wish to _re-throw_ an error, this can be done by calling `Throw(e)` with the error code you just caught. It _IS_ valid to throw from a `Catch` block.
+
 
 Configuration
 =============
@@ -124,6 +123,7 @@ You have options for configuring the library, if the defaults aren't good enough
 	* This macro can be optionally specified. It allows you to specify code to be called when a Throw is made outside of Try...Catch protection. Consider this the emergency fallback plan for when something has gone terribly wrong.
 
 You may also want to include any header files which will commonly be needed by the rest of your application where it uses exception handling here. For example, OS header files or exception codes would be useful.
+
 
 Testing
 =======
