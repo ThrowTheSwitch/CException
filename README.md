@@ -5,7 +5,7 @@ CException - Lightweight exception library for C
 
 _This Documentation Is Released Under a Creative Commons 3.0 Attribution Share-Alike License_
 
-CException is simple exception handling in C. It is significantly faster than full-blown C++ exception handling but loses some flexibility. It is portable to any platform supporting `setjmp/longjmp`.
+CException is simple exception handling in C. It is significantly faster than full-blown C++ exception handling but loses some flexibility. It is portable to any platform supporting `setjmp`/`longjmp`.
 
 Getting Started
 ================
@@ -18,7 +18,7 @@ Getting Started
 Usage
 =====
 
-_So what's it good for?_
+*So what's it good for?*
 
 Mostly error handling. Passing errors down a long chain of function calls gets ugly. Sometimes really ugly. So what if you could just specify certain places where you want to handle errors, and all your errors were transferred there? Let's try a lame example:
 
