@@ -1,6 +1,9 @@
 #include "CException.h"
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wmissing-field-initializers"
 volatile CEXCEPTION_FRAME_T CExceptionFrames[CEXCEPTION_NUM_ID] = {{ 0 }};
+#pragma GCC diagnostic pop
 
 //------------------------------------------------------------------------------------------
 //  Throw
