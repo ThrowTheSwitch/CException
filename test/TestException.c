@@ -42,7 +42,7 @@ void test_BasicThrowAndCatch(void)
   Try
   {
     Throw(0xBE);
-    TEST_FAIL_MESSAGE("Should Have Thrown An Error")
+    TEST_FAIL_MESSAGE("Should Have Thrown An Error");
   }
   Catch(e)
   {
@@ -83,7 +83,7 @@ void test_VerifyVolatilesSurviveThrowAndCatch(void)
   {
     VolVal = 2;
     Throw(0xBF);
-    TEST_FAIL_MESSAGE("Should Have Thrown An Error")
+    TEST_FAIL_MESSAGE("Should Have Thrown An Error");
   }
   Catch(e)
   {
@@ -292,7 +292,7 @@ void test_CanHaveNestedTryBlocksInASingleFunction_ThrowOutside(void)
     }
     Catch(e)
     {
-      TEST_FAIL_MESSAGE("Should NotBe Caught Here");
+      TEST_FAIL_MESSAGE("Should Not Be Caught Here");
     }
     HappyExceptionThrower(0x01);
     TEST_FAIL_MESSAGE("Should Have Rethrown Exception");
@@ -339,4 +339,51 @@ void test_AThrowWithoutOutsideATryCatchWillUseDefaultHandlerEvenAfterTryCatch(vo
     //We know the fallback was run because it decrements the counter above
     TEST_ASSERT_FALSE(TestingTheFallback);
     TEST_ASSERT_EQUAL(0xBE, TestingTheFallbackId);
+}
+
+void test_AbilityToExitTryWithoutThrowingAnError(void)
+{
+    int i=0;
+    CEXCEPTION_T e;
+
+    Try
+    {
+        ExitTry();
+        TEST_FAIL_MESSAGE("Should Have Exited Try Before This");
+    }
+    Catch(e)
+    {
+        TEST_FAIL_MESSAGE("Should Not Have Been Caught");
+    }
+
+    // verify that i is still zero
+    TEST_ASSERT_EQUAL(0, i);
+}
+
+void test_AbilityToExitTryWillOnlyExitOneLevel(void)
+{
+    int i=0;
+    CEXCEPTION_T e;
+    CEXCEPTION_T e2;
+
+    Try
+    {
+        Try
+        {
+            ExitTry();
+            TEST_FAIL_MESSAGE("Should Have Exited Try Before This");
+        }
+        Catch(e)
+        {
+            TEST_FAIL_MESSAGE("Should Not Have Been Caught By Inside");
+        }
+        i = 1;
+    }
+    Catch(e2)
+    {
+        TEST_FAIL_MESSAGE("Should Not Have Been Caught By Outside");
+    }
+
+    // verify that we picked up and ran after first Try
+    TEST_ASSERT_EQUAL(1, i);
 }

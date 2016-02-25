@@ -40,21 +40,13 @@ extern void test_CanHaveNestedTryBlocksInASingleFunction_ThrowInside(void);
 extern void test_CanHaveNestedTryBlocksInASingleFunction_ThrowOutside(void);
 extern void test_AThrowWithoutATryCatchWillUseDefaultHandlerIfSpecified(void);
 extern void test_AThrowWithoutOutsideATryCatchWillUseDefaultHandlerEvenAfterTryCatch(void);
-
-
-//=======Test Reset Option=====
-void resetTest()
-{
-  tearDown();
-  setUp();
-}
-
+extern void test_AbilityToExitTryWithoutThrowingAnError(void);
+extern void test_AbilityToExitTryWillOnlyExitOneLevel(void);
 
 //=======MAIN=====
 int main(void)
 {
-  Unity.TestFile = "test/TestException.c";
-  UnityBegin();
+  UnityBegin("TestException.c");
   RUN_TEST(test_BasicTryDoesNothingIfNoThrow, 16);
   RUN_TEST(test_BasicThrowAndCatch, 37);
   RUN_TEST(test_BasicThrowAndCatch_WithMiniSyntax, 56);
@@ -69,6 +61,7 @@ int main(void)
   RUN_TEST(test_CanHaveNestedTryBlocksInASingleFunction_ThrowOutside, 281);
   RUN_TEST(test_AThrowWithoutATryCatchWillUseDefaultHandlerIfSpecified, 308);
   RUN_TEST(test_AThrowWithoutOutsideATryCatchWillUseDefaultHandlerEvenAfterTryCatch, 319);
-
+  RUN_TEST(test_AbilityToExitTryWithoutThrowingAnError, 344);
+  RUN_TEST(test_AbilityToExitTryWillOnlyExitOneLevel, 363);
   return (UnityEnd());
 }
