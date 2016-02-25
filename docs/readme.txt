@@ -240,7 +240,7 @@ LICENSE
 
 This software is licensed under the MIT License
 
-Copyright (c) 2007-2012 Mark VanderVoord
+Copyright (c) 2007-2016 Mark VanderVoord
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

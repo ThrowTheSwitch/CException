@@ -96,6 +96,9 @@ CException API
 * `Throw(e)`
 	* `Throw` is the method used to throw an error. `Throw`s should only occur from within a protected (`Try`...`Catch`) block, though it may easily be nested many function calls deep without an impact on performance or functionality. `Throw` takes a single argument, which is an exception id which will be passed to `Catch` as the reason for the error. If you wish to _re-throw_ an error, this can be done by calling `Throw(e)` with the error code you just caught. It _IS_ valid to throw from a `Catch` block.
 
+* `ExitTry()`
+    * `ExitTry` is a method used to immediately exit your current Try block but NOT treat this as an error. Don't run the Catch. Just start executing from after the Catch as if nothing had happened.
+
 Configuration
 =============
 
@@ -124,6 +127,13 @@ You have options for configuring the library, if the defaults aren't good enough
 
 You may also want to include any header files which will commonly be needed by the rest of your application where it uses exception handling here. For example, OS header files or exception codes would be useful.
 
+Finally, there are some hook macros which you can implement to inject your own target-specific code in particular places. It is a rare instance where you will need these, but they are here if you need them:
+
+* `CEXCEPTION_HOOK_START_TRY` - called immediately before the Try block
+* `CEXCEPTION_HOOK_HAPPY_TRY` - called immediately after the Try block if no exception was thrown
+* `CEXCEPTION_HOOK_AFTER_TRY` - called immediately after the Try block OR before an exception is caught
+* `CEXCEPTION_HOOK_START_CATCH` - called immediately before the catch
+
 Testing
 =======
 
@@ -138,7 +148,7 @@ License
 =======
 
 *This software is licensed under the MIT License:
-Copyright (c) 2007-2014 Mark VanderVoord*
+Copyright (c) 2007-2016 Mark VanderVoord*
 
 *Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.*
