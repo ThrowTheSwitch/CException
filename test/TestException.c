@@ -349,10 +349,12 @@ void test_AbilityToExitTryWithoutThrowingAnError(void)
     Try
     {
         ExitTry();
+        i = 1;
         TEST_FAIL_MESSAGE("Should Have Exited Try Before This");
     }
     Catch(e)
     {
+        i = 2;
         TEST_FAIL_MESSAGE("Should Not Have Been Caught");
     }
 
