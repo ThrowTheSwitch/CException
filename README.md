@@ -9,10 +9,16 @@ CException is simple exception handling in C. It is significantly faster than fu
 Getting Started
 ================
 
+The simplest way to get started is to just grab the code and pull it into your project:
+
 	> git clone --recursive https://github.com/throwtheswitch/cexception.git
+	
+If you want to contribute to this project, you'll also need to have Ruby installed to run the unit tests. You can automatically
+install all the things you need by doing this:
+
 	> cd cexception
 	> bundle install # Ensures you have all RubyGems needed
-	> bundle execute rake # Run CException tests
+	> bundle exec rake # Run CException tests
 
 Usage
 =====
@@ -148,7 +154,7 @@ License
 =======
 
 *This software is licensed under the MIT License:
-Copyright (c) 2007-2016 Mark VanderVoord*
+Copyright (c) 2007-2017 Mark VanderVoord*
 
 *Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.*
