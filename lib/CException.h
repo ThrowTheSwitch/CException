@@ -94,7 +94,7 @@ extern volatile CEXCEPTION_FRAME_T CExceptionFrames[];
         CExceptionFrames[MY_ID].pFrame = PrevFrame;                 \
         CEXCEPTION_HOOK_AFTER_TRY;                                  \
     }                                                               \
-    if (CExceptionFrames[CEXCEPTION_GET_ID].Exception != CEXCEPTION_NONE)
+    if (memcmp((void*)&CExceptionFrames[CEXCEPTION_GET_ID].Exception, (void*)&CEXCEPTION_NONE, sizeof(CEXCEPTION_NONE)) != 0) \
 
 //Throw an Error
 void Throw(CEXCEPTION_T ExceptionID);
