@@ -2,7 +2,7 @@
 #                                                                                 #
 # NAME: meson.build                                                               #
 #                                                                                 #
-# AUTHOR: Mike Karlesky, Mark VanderVoord, Greg Williams.                         #
+# AUTHOR: Mark VanderVoord.                                                       #
 # WRITTEN BY: Michael Brockus.                                                    #
 #                                                                                 #
 # License: MIT                                                                    #
