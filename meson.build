@@ -12,7 +12,7 @@
 
 
 project('c_exception', 'c',
-    version         : '2.4.6',
+    version         : '1.3.1',
     license         : 'MIT',
     meson_version   : '>=0.50.0',
     default_options : 
