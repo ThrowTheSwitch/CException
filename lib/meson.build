@@ -15,6 +15,6 @@ c_exception_src = files('CException.c')
 
 c_exception_dir = include_directories('.')
 
-c_exception_lib = library(meson.project_name(), 
+c_exception_lib = static_library(meson.project_name(), 
     sources: c_exception_src,
     include_directories: c_exception_dir)
