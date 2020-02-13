@@ -46,7 +46,7 @@ CONTENTS OF THIS DOCUMENT
 
 * Usage
 * Limitations
-*API
+* API
 * Configuration
 * Testing
 * License
@@ -102,6 +102,46 @@ to successfully utilize this library:
    memory location was updated and not just a register unless the
    variable is marked volatile.
 
+   As an example, if we had the following code, the value `b` is 
+   very likely at risk. It is assigned to the value `3` inside the
+   `Try` block, but the compiler may or may not have written that 
+   variable to an actual memory location when the Throw happens. If 
+   it did, the `printf` will have a `3` for the second value. If not,
+   it will still have a `0`. Changing `b` to `volatile` would
+   guarantee it is the correct value.
+   
+   ```
+   void func(int *a)
+   {
+     // ...
+     int b = 0;
+     Try {
+       *a += 2;
+       b = *a;
+       Throw(MY_EX);
+     } Catch(e) {
+       // ...
+     }
+     printf("%d ?= %d", a, b);
+   }
+   void main()
+   {
+     int x = 1;
+     func(&x);
+     printf("%d", x);
+   }
+   ```
+   
+   With most compilers, the `*a` and `x` values are NOT at risk.
+   We're dereferencing the pointer, which usually will force 
+   memory interaction. Optimizing compilers DO optimize, though, 
+   and it IS possible that even these values may have been cached
+   and not written to the final memory location. In those instances,
+   they would both report `1`.
+   
+   If you have a lot of situations like this and a strong optimizing
+   compiler, it is best to reduce the optimization level when using
+   CException.
 
 3. Memory which is `malloc`'d or `new`'d is not automatically released
    when an error is thrown.  This will sometimes be desirable, and
@@ -271,7 +311,7 @@ LICENSE
 
 This software is licensed under the MIT License
 
-Copyright (c) 2007-2017 Mark VanderVoord
+Copyright (c) 2007-2020 Mark VanderVoord
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
