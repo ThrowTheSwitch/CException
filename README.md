@@ -127,7 +127,7 @@ location was updated and not just a register unless the variable is marked volat
 ### Memory Management
 
 Memory which is `malloc`'d within a `Try` block is not automatically released when an error is thrown. This 
-will sometimes be desirable, and othertimes may not. It will be the responsibility of the code you put in 
+will sometimes be desirable, and other times may not. It will be the responsibility of the code you put in 
 the `Catch` block to perform this kind of cleanup.
 
 There's just no easy way to track `malloc`'d memory, etc., without replacing or wrapping `malloc` 
