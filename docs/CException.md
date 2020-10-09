@@ -145,7 +145,7 @@ to successfully utilize this library:
 
 3. Memory which is `malloc`'d or `new`'d is not automatically released
    when an error is thrown.  This will sometimes be desirable, and
-   othertimes may not.  It will be the responsibility of the `Catch`
+   other times may not.  It will be the responsibility of the `Catch`
    block to perform this kind of cleanup.
 
    *Why?*
