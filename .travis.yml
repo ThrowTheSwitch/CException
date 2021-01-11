@@ -6,11 +6,14 @@ os:
 
 rvm:
   - "2.3"
+    env: CEEDLING_VERSION="-v 0.29.1"
   - "2.4"
+    env: CEEDLING_VERSION=""
   - "2.6"
+    env: CEEDLING_VERSION=""
 
 install:
-  - gem install ceedling
+  - gem install ceedling $CEEDLING_VERSION
 
 script:
   - ceedling clobber test:all
