@@ -7,5 +7,5 @@
 cexception_dir = include_directories('.')
 
 cexception_lib = static_library(meson.project_name(), 
-    sources: ['CException.c'],
-    include_directories: cexception_dir)
+    files('CException.c'),
+    include_directories : cexception_dir)
