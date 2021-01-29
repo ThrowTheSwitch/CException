@@ -1,8 +1,6 @@
 CException ![CI](https://github.com/ThrowTheSwitch/CException/workflows/CI/badge.svg)
 ==========
 
-[![CException Build Status](https://api.travis-ci.org/ThrowTheSwitch/CException.png?branch=master)](https://travis-ci.org/ThrowTheSwitch/CException)
-
 _This Documentation Is Released Under a Creative Commons 3.0 Attribution Share-Alike License_
 
 CException is simple exception handling in C. It is significantly faster than full-blown C++ exception handling 
