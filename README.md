@@ -1,5 +1,5 @@
-CException - Lightweight exception library for C
-================================================
+CException ![CI](https://github.com/ThrowTheSwitch/CException/workflows/CI/badge.svg)
+==========
 
 [![CException Build Status](https://api.travis-ci.org/ThrowTheSwitch/CException.png?branch=master)](https://travis-ci.org/ThrowTheSwitch/CException)
 
