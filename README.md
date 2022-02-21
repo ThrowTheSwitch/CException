@@ -84,7 +84,7 @@ transferred to the Catch block. A silly example:
 
 ```
 void SillyExampleWhichPrintsZeroThroughFive(void) {
-  CEXCEPTION_T e;
+  volatile CEXCEPTION_T e;
   int i;
   while (i = 0; i < 6; i++) {
     Try {
