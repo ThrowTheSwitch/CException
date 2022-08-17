@@ -230,19 +230,19 @@ further requirements, then calls `CException.h` to do the gruntwork.  All
 of these are optional.  You could directly include `CException.h` if
 you wanted and just use the defaults provided.
 
-* `EXCEPTION_T`
+* `CEXCEPTION_T`
   * Set this to the type you want your exception id's to be.  Defaults to 'unsigned int'.
 
-* `EXCEPTION_NONE`
+* `CEXCEPTION_NONE`
   * Set this to a number which will never be an exception id in your system.  Defaults to `0x5a5a5a5a`.
 
-* `EXCEPTION_GET_ID`
+* `CEXCEPTION_GET_ID`
   * If in a multi-tasking environment, this should be
     set to be a call to the function described in #2 above.
     Defaults to just return `0` all the time (good for
     single tasking environments)
 
-* `EXCEPTION_NUM_ID`
+* `CEXCEPTION_NUM_ID`
   * If in a multi-tasking environment, this should be set
     to the number of ID's required (usually the number of
     tasks in the system).  Defaults to `1` (for single
