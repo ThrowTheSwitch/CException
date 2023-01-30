@@ -4,7 +4,6 @@
 # only requirement for USING CException is in the lib folder.
 
 :project:
-  :use_exceptions: FALSE
   :use_test_preprocessor: FALSE
   :use_auxiliary_dependencies: FALSE
   :build_root: build
