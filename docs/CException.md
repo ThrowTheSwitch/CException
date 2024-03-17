@@ -1,4 +1,3 @@
-
 CException
 ==========
 
@@ -6,13 +5,11 @@ CException is a basic exception framework for C, suitable for use in
 embedded applications.  It provides an exception framework similar in
 use to C++, but with much less overhead.
 
-
 CException uses C standard library functions `setjmp` and `longjmp` to
 operate.  As long as the target system has these two functions defined,
 this library should be useable with very little configuration.  It
 even supports environments where multiple program flows are in use,
 such as real-time operating systems.
-
 
 There are about a gabillion exception frameworks using a similar
 setjmp/longjmp method out there... and there will probably be more
@@ -21,9 +18,7 @@ project, all those that existed either (a) did not support multiple
 tasks (therefore multiple stacks) or (b) were way more complex than
 we really wanted.  CException was born.
 
-
 *Why use CException?*
-
 
 0. It's ANSI C, and it beats passing error codes around.
 1. You want something simple... CException throws a single id. You can
@@ -37,9 +32,7 @@ we really wanted.  CException was born.
    your only additional overhead is the time it takes you to determine
    a unique task id 0 - num_tasks.
 
-
 For the latest version, go to [ThrowTheSwitch.org](http://throwtheswitch.org)
-
 
 CONTENTS OF THIS DOCUMENT
 =========================
@@ -60,19 +53,14 @@ The code directly following the Try call is "protected", meaning that
 if any Throws occur, program control is directly transferred to the
 start of the Catch block.
 
-
 A numerical exception ID is included with Throw, and is made accessible
 from the Catch block.
-
 
 Throws can occur from within function calls (nested as deeply as you
 like) or directly from within the function itself.
 
-
-
 Limitations
 -----------
-
 
 This library was made to be as fast as possible, and provide basic
 exception handling.  It is not a full-blown exception library.  Because
@@ -153,8 +141,6 @@ to successfully utilize this library:
    There's just no easy way to track `malloc`'d memory, etc., without
    replacing or wrapping malloc calls or something like that.  This
    is a light framework, so these options were not desirable.
-
-
 
 API
 ---
@@ -255,7 +241,6 @@ you wanted and just use the defaults provided.
     this the emergency fallback plan for when something has
     gone terribly wrong.
 
-
 You may also want to include any header files which will commonly be
 needed by the rest of your application where it uses exception handling
 here.  For example, OS header files or exception codes would be useful.
@@ -279,10 +264,8 @@ where you will need these, but they are here if you need them:
   * called immediately before the catch
 
 
-
 TESTING
 -------
-
 
 If you want to validate that CException works with your tools or that
 it works with your custom configuration, you may want to run the test
@@ -304,29 +287,3 @@ to compile and run the test application.
   * The path to the Unity framework (required to run tests)
     (get it at [ThrowTheSwitch.org](http://throwtheswitch.org))
 
-
-
-LICENSE
--------
-
-This software is licensed under the MIT License
-
-Copyright (c) 2007-2021 Mark VanderVoord
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.

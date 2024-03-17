@@ -1,3 +1,10 @@
+/* =========================================================================
+    CException - Simple Exception Handling in C
+    ThrowTheSwitch.org
+    Copyright (c) 2007-24 Mark VanderVoord
+    SPDX-License-Identifier: MIT
+========================================================================= */
+
 #include "unity.h"
 #include "CException.h"
 
