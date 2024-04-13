@@ -1,3 +1,10 @@
+/* =========================================================================
+    CException - Simple Exception Handling in C
+    ThrowTheSwitch.org
+    Copyright (c) 2007-24 Mark VanderVoord
+    SPDX-License-Identifier: MIT
+========================================================================= */
+
 #include "unity.h"
 #include "CException.h"
 
@@ -281,7 +288,7 @@ void test_CanHaveNestedTryBlocksInASingleFunction_ThrowInside(void)
 
 void test_CanHaveNestedTryBlocksInASingleFunction_ThrowOutside(void)
 {
-  int i = 0;
+  volatile int i = 0;
   CEXCEPTION_T e;
 
   Try
@@ -343,7 +350,7 @@ void test_AThrowWithoutOutsideATryCatchWillUseDefaultHandlerEvenAfterTryCatch(vo
 
 void test_AbilityToExitTryWithoutThrowingAnError(void)
 {
-    int i=0;
+    volatile int i=0;
     CEXCEPTION_T e;
 
     Try
@@ -364,7 +371,7 @@ void test_AbilityToExitTryWithoutThrowingAnError(void)
 
 void test_AbilityToExitTryWillOnlyExitOneLevel(void)
 {
-    int i=0;
+    volatile int i=0;
     CEXCEPTION_T e;
     CEXCEPTION_T e2;
 

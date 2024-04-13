@@ -1,3 +1,10 @@
+# =========================================================================
+#   CException - Simple Exception Handling in C
+#   ThrowTheSwitch.org
+#   Copyright (c) 2007-24 Mark VanderVoord
+#   SPDX-License-Identifier: MIT
+# =========================================================================
+
 ---
 
 # This project file is for using Ceedling to run CException's self-tests. The
