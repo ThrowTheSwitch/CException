@@ -16,6 +16,12 @@ jobs:
     name: "Unit Tests"
     runs-on: ubuntu-latest
     steps:
+      # Checks out repository under $GITHUB_WORKSPACE
+      - name: Checkout Latest Repo
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          
       # Install Ceedling
       - name: Install Ceedling
         run: |
