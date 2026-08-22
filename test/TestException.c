@@ -8,6 +8,8 @@
 #include "unity.h"
 #include "CException.h"
 
+#include <stddef.h>
+
 volatile int TestingTheFallback;
 volatile int TestingTheFallbackId;
 
