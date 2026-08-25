@@ -26,7 +26,7 @@ Mostly error handling. Passing errors down a long chain of function calls gets u
 So what if you could just specify certain places where you want to handle errors, and all your errors were 
 transferred there? Let's try a lame example:
 
-CException uses C standard library functions setjmp and longjmp to operate. As long as the target system 
+CException uses C standard library functions `setjmp` and `longjmp` to operate. As long as the target system 
 has these two functions defined, this library should be useable with very little configuration. It even 
 supports environments where multiple program flows are in use, such as real-time operating systems... 
 we started this project for use in embedded systems... but it obviously can be used for larger systems too.
@@ -42,7 +42,7 @@ void functionC(void) {
 }
 ```
 
-There are about a gajillion exception frameworks using a similar setjmp/longjmp method out there... and there 
+There are about a gajillion exception frameworks using a similar `setjmp`/`longjmp` method out there... and there 
 will probably be more in the future. Unfortunately, when we started our last embedded project, all those that 
 existed either (a) did not support multiple tasks (therefore multiple stacks) or (b) were way more complex 
 than we really wanted. CException was born.
@@ -63,7 +63,7 @@ in passing objects or structs or strings... just simple error codes. Fast. Easy 
 ### Performance...
 
 CException can be configured for single tasking or multitasking. In single tasking, there is 
-very little overhead past the setjmp/longjmp calls (which are already fast). In multitasking, your only additional 
+very little overhead past the `setjmp`/`longjmp` calls (which are already fast). In multitasking, your only additional 
 overhead is the time it takes you to determine a unique task id (0 to num_tasks).
 
 How?
@@ -82,7 +82,7 @@ function calls (nested as deeply as you like). There can be as many Throws as yo
 execution of the guts of your Try block ends as soon as the first Throw is triggered. Once you throw, you're 
 transferred to the Catch block. A silly example:
 
-```
+```c
 void SillyExampleWhichPrintsZeroThroughFive(void) {
   volatile CEXCEPTION_T e;
   int i;
@@ -109,7 +109,7 @@ successfully utilize this library:
 
 Do not directly `return` from within a `Try` block, nor `goto` into or out of a `Try` block.
 The `Try` macro allocates some local memory and alters a global pointer. These are cleaned up at the 
-top of the `Catch` macro. Gotos and returns would bypass some of these steps, resulting in memory leaks 
+top of the `Catch` macro. `goto`s and returns would bypass some of these steps, resulting in memory leaks 
 or unpredictable behavior.
 
 ### Local Variables
@@ -174,7 +174,7 @@ Configuration
 CException is a mostly portable library. It has one universal dependency, plus some macros which are required if 
 working in a multi-tasking environment.
 
-The standard C library setjmp must be available. Since this is part of the standard library, it's all good.
+The standard C library `setjmp` must be available. Since this is part of the standard library, it's all good.
 
 If working in a multitasking environment, you need a stack frame for each task. Therefore, you must define 
 methods for obtaining an index into an array of frames and to get the overall number of id's are required. If 
@@ -232,5 +232,11 @@ Testing
 If you want to validate that CException works with your tools or that it works with your custom 
 configuration, you may want to run the included test suite. This is the test suite (along with real 
 projects we've used it on) that we use to make sure that things actually work the way we claim.
-The test suite makes use of Ceedling, which uses the Unity Test Framework. It will require a native C compiler. 
-The example makefile and rakefile both use gcc. 
+
+There are two ways of testing CException, using the unit testing frame work `Ceedling` or bare metal.
+- `Ceedling`: The test suite makes use of `Ceedling`, which uses the Unity Test Framework. It will require a native C compiler. 
+  The example makefile and `rakefile` both use gcc.
+- Bare metal: The test suite makes use of `waf`, which is used as build an test framework.
+  It will require a native C compiler (GCC/Clang on Linux or GCC/MSVC on Windows).
+  Usage: `python waf configure build`
+  A coverage report is created if GCC or Clang are used and GCOVR is available.

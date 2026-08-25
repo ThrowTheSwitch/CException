@@ -6,27 +6,25 @@ name: CI
 # Triggers the workflow on push or pull request events but only for the master branch
 on:
   push:
-    branches: [ master ]
   pull_request:
-    branches: [ master ]
 
 jobs:
   # Job: Unit test suite
-  unit-tests:
-    name: "Unit Tests"
+  unit-tests-linux-gcc-ceedling:
+    name: "Unit Tests (Linux/GCC/Ceedling)"
     runs-on: ubuntu-latest
     steps:
       # Checks out repository under $GITHUB_WORKSPACE
       - name: Checkout Latest Repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           submodules: recursive
-          
-      # Set up Ruby
-      - name: Set Up Ruby
+
+      - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.2'
+          ruby-version: "3.1"
+          bundler-cache: true
 
       # Install Ceedling
       - name: Install Ceedling
@@ -37,3 +35,163 @@ jobs:
       - name: Run All Self Tests
         run: |
           ceedling clobber test:all
+
+  unit-tests-linux-gcc-bare:
+    name: "Unit Tests (Linux/GCC/Bare)"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Latest Repo
+        uses: actions/checkout@v7
+          
+      - name: Install Python 3
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.x"
+
+      - name: Cache pip packages
+        uses: actions/cache@v6
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Create virtual environment
+        run: |
+          python3 -m venv .venv
+          source .venv/bin/activate
+          pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run build and test
+        run: |
+          source .venv/bin/activate
+          python waf configure build -v
+
+  unit-tests-linux-clang-bare:
+    name: "Unit Tests (Linux/Clang/Bare)"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Install Python 3
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.x"
+
+      - name: Cache pip packages
+        uses: actions/cache@v6
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Create virtual environment
+        run: |
+          python3 -m venv .venv
+          source .venv/bin/activate
+          pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Install clang + llvm-cov
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y clang llvm
+
+      - name: Check clang
+        run: clang --version
+
+      - name: Build with clang
+        run: |
+          source .venv/bin/activate
+          python waf configure build -v --check-c-compiler clang
+
+  unit-tests-windows-gcc-bare:
+    name: "Unit Tests (Windows/GCC/Bare)"
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout Latest Repo
+        uses: actions/checkout@v7
+
+      - name: Install MSYS2
+        uses: msys2/setup-msys2@v2
+        with:
+          update: true
+          install: >-
+            mingw-w64-x86_64-gcc
+            mingw-w64-x86_64-make
+            mingw-w64-x86_64-binutils
+
+      - name: Add MSYS2 MinGW64 to PATH
+        shell: pwsh
+        run: |
+          echo "C:\msys64\mingw64\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+
+      - name: Check GCC
+        shell: pwsh
+        run: gcc --version
+
+      - name: Install Python 3 (native Windows)
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.x"
+
+      - name: Cache pip packages
+        uses: actions/cache@v6
+        with:
+          path: ~\AppData\Local\pip\Cache
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Create virtual environment
+        shell: pwsh
+        run: |
+          python -m venv .venv
+          .\.venv\Scripts\activate
+          pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run waf build with MSYS2 GCC
+        shell: pwsh
+        run: |
+          .\.venv\Scripts\activate
+          python waf configure build -v --check-c-compiler gcc
+
+
+  unit-tests-windows-msvc-bare:
+    name: "Unit Tests (Windows/MSVC/Bare)"
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout Latest Repo
+        uses: actions/checkout@v7
+
+      - name: Install Python 3
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.x"
+
+      - name: Cache pip packages
+        uses: actions/cache@v6
+        with:
+          path: ~\AppData\Local\pip\Cache
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Create virtual environment
+        run: |
+          python3 -m venv .venv
+          .\.venv\Scripts\activate
+          pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run build and test (MSVC)
+        run: |
+          .\.venv\Scripts\activate
+          python waf configure build -v --check-c-compiler msvc

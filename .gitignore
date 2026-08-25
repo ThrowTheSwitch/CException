@@ -1,2 +1,4 @@
 build
 *.sublime-*
+waf*-*-*/
+.lock-waf_*

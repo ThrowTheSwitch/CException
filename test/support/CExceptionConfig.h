@@ -8,7 +8,23 @@
 #ifndef _EXCEPTION_H
 #define _EXCEPTION_H
 
+#ifndef BARE_TEST
 #include "unity.h"
+#endif // BARE_TEST
+
+#ifdef BARE_TEST
+#include <assert.h>
+#include <stdbool.h>
+#include <stdio.h>
+#define TEST_ASSERT_GREATER_THAN_INT_MESSAGE(x, y, msg) \
+{ \
+    bool violation = x > y; \
+    if (violation) { \
+        fprintf(stderr, "%s", msg); \
+        assert(0);\
+    } \
+}
+#endif // BARE_TEST
 
 extern volatile int TestingTheFallback;
 extern volatile int TestingTheFallbackId;
